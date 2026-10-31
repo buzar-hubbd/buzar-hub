@@ -206,7 +206,35 @@ app.post("/api/orders", rateLimit({ windowMs: 10 * 60 * 1000, limit: 15 }), (req
     res.status(400).json({ error: e.message || "অর্ডার তৈরি করা যায়নি।" });
   }
 });
+app.post("/api/order-track", rateLimit({ windowMs: 10 * 60 * 1000, limit: 20 }), (req, res) => {
+  const orderCode = cleanText(req.body.orderCode, 30).toUpperCase();
+  const phone = cleanText(req.body.phone, 20);
 
+  if (!/^BH\d{11}$/.test(orderCode) || !/^01[3-9]\d{8}$/.test(phone)) {
+    return res.status(400).json({ error: "সঠিক অর্ডার নম্বর ও মোবাইল নম্বর দিন।" });
+  }
+
+  const order = db.prepare(`
+    SELECT order_code, customer_name, items_json, total, payment_method,
+           payment_status, order_status, created_at
+    FROM orders WHERE order_code=? AND phone=?
+  `).get(orderCode, phone);
+
+  if (!order) {
+    return res.status(404).json({ error: "অর্ডার পাওয়া যায়নি। অর্ডার নম্বর ও মোবাইল নম্বর মিলিয়ে দেখুন।" });
+  }
+
+  res.json({
+    orderCode: order.order_code,
+    customerName: order.customer_name,
+    items: JSON.parse(order.items_json),
+    total: order.total,
+    paymentMethod: order.payment_method,
+    paymentStatus: order.payment_status,
+    orderStatus: order.order_status,
+    createdAt: order.created_at
+  });
+});
 app.post("/api/admin/login", async (req, res) => {
   const username = cleanText(req.body.username, 80);
   const password = String(req.body.password || "");
