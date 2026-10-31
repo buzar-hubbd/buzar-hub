@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#111111"><meta name="description" content="BAZAR HUB - টি-শার্ট, প্যান্ট, শীতের পোশাক ও ঘড়ি">
+<title>BAZAR HUB | Shop Smart • Live Better</title><link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="topbar">🚚 সারা বাংলাদেশে ডেলিভারি <span> | নিরাপদ অর্ডার | কাস্টমার সাপোর্ট</span></div>
+<header class="header">
+  <a class="brand" href="/">🛍️ <b>BAZAR <i>HUB</i></b><small>Shop Smart • Live Better</small></a>
+  <form id="searchForm" class="search"><input id="search" placeholder="পণ্য খুঁজুন..."><button>⌕</button></form>
+  <button class="cartBtn" id="cartOpen">🛒 কার্ট <b id="cartCount">0</b></button>
+</header>
+<nav><a href="#home">হোম</a><a href="#products">টি-শার্ট</a><a href="#products">প্যান্ট</a><a href="#products">শীতের পোশাক</a><a href="#products">ঘড়ি</a><a href="/admin">অ্যাডমিন</a></nav>
+<section class="hero" id="home"><div><p class="eyebrow">নিজস্ব ফ্যাশন ব্র্যান্ড</p><h1>স্টাইল, কমফোর্ট<br>এবং কোয়ালিটির <em>পারফেক্ট কম্বিনেশন!</em></h1><p>BAZAR HUB-এর পছন্দের কালেকশন থেকে বেছে নিন আপনার স্টাইল।</p><a class="btn" href="#products">এখনই শপিং করুন →</a></div><div class="heroArt">BAZAR<br><strong>HUB</strong><small>OWN YOUR STYLE</small></div></section>
+<section class="trust"><div>🚚 <b>সারা দেশে ডেলিভারি</b><small>বাংলাদেশজুড়ে</small></div><div>🔒 <b>নিরাপদ অর্ডার</b><small>যাচাইকৃত পেমেন্ট</small></div><div>💬 <b>কাস্টমার সাপোর্ট</b><small>সহায়তা পেতে যোগাযোগ</small></div></section>
+<main class="wrap" id="products"><div class="sectionTitle"><div><p class="eyebrow">OUR COLLECTION</p><h2>আমাদের পণ্য</h2></div><select id="category"><option value="">সব ক্যাটাগরি</option><option>টি-শার্ট</option><option>প্যান্ট</option><option>শীতের পোশাক</option><option>ঘড়ি</option></select></div><div id="productGrid" class="grid"><p>পণ্য লোড হচ্ছে...</p></div></main>
+<section class="paymentBand"><div><h2>সহজ পেমেন্ট, সহজ কেনাকাটা</h2><p>bKash Send Money অথবা Cash on Delivery</p></div><b>বিকাশ: 01633046064</b></section>
+<footer><div><h2>🛍️ BAZAR <i>HUB</i></h2><p>Shop Smart • Live Better</p></div><div><b>কাস্টমার সার্ভিস</b><a href="mailto:support@bazarhub.example">ইমেইল সাপোর্ট</a><a href="/admin">অ্যাডমিন লগইন</a></div><div><b>নীতিমালা</b><a href="#policies">ডেলিভারি ও রিটার্ন</a><a href="#policies">গোপনীয়তা নীতি</a></div><p id="policies" class="copyright">© <span id="year"></span> BAZAR HUB. সর্বস্বত্ব সংরক্ষিত।</p></footer>
+<div id="cartModal" class="modal hidden"><div class="dialog"><button class="x" data-close="cartModal">×</button><h2>আপনার কার্ট</h2><div id="cartItems"></div><div id="cartTotal" class="total"></div><button class="btn wide" id="checkoutOpen">অর্ডার সম্পন্ন করুন</button></div></div>
+<div id="checkoutModal" class="modal hidden"><form class="dialog" id="checkoutForm"><button type="button" class="x" data-close="checkoutModal">×</button><h2>অর্ডার সম্পন্ন করুন</h2><label>আপনার নাম<input name="name" required maxlength="100"></label><label>মোবাইল নম্বর<input name="phone" required inputmode="numeric" placeholder="01XXXXXXXXX"></label><label>সম্পূর্ণ ঠিকানা<textarea name="address" required></textarea></label><label>পেমেন্ট পদ্ধতি<select name="paymentMethod" id="paymentMethod"><option value="COD">Cash on Delivery</option><option value="BKASH">bKash Send Money</option></select></label><div id="bkashBox" class="bkash hidden"><b>bKash Personal: 01633046064</b><p>উপরের নম্বরে মোট বিল Send Money করুন। তারপর Transaction ID লিখুন। অ্যাডমিন যাচাই না করা পর্যন্ত পেমেন্ট Pending থাকবে।</p><label>Transaction ID<input name="transactionId" id="transactionId"></label></div><div id="checkoutSummary"></div><button class="btn wide" type="submit">অর্ডার নিশ্চিত করুন</button><p class="muted">অর্ডার দেওয়ার মাধ্যমে আপনি আমাদের নীতিমালায় সম্মতি দিচ্ছেন।</p></form></div>
+<div id="toast" class="toast hidden"></div><script src="/app.js"></script>
+</body></html>
