@@ -13,5 +13,44 @@ window.qty=(id,d)=>{const x=cart.find(x=>x.id===id);if(x)x.qty+=d;cart=cart.filt
 $("#cartOpen").onclick=showCart;document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>$("#"+b.dataset.close).classList.add("hidden"));
 $("#checkoutOpen").onclick=()=>{if(!cart.length)return toast("কার্ট খালি।");$("#cartModal").classList.add("hidden");const sub=cart.reduce((s,x)=>s+(products.find(p=>p.id===x.id)?.price||0)*x.qty,0);$("#checkoutSummary").textContent=`মোট বিল: ${money(sub+(sub>=2000?0:80))} (ডেলিভারি ${sub>=2000?"ফ্রি":money(80)})`;$("#checkoutModal").classList.remove("hidden")}
 $("#paymentMethod").onchange=e=>{$("#bkashBox").classList.toggle("hidden",e.target.value!=="BKASH");$("#transactionId").required=e.target.value==="BKASH"}
-$("#checkoutForm").onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target);const payload={name:f.get("name"),phone:f.get("phone"),address:f.get("address"),paymentMethod:f.get("paymentMethod"),transactionId:f.get("transactionId"),items:cart};try{const r=await fetch("/api/orders",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});const data=await r.json();if(!r.ok)throw Error(data.error||"অর্ডার করা যায়নি");cart=[];save();$("#checkoutModal").classList.add("hidden");e.target.reset();$("#bkashBox").classList.add("hidden");alert(`${data.message}\nঅর্ডার নম্বর: ${data.orderCode}\nমোট: ${money(data.total)}\nঅর্ডার নম্বরটি সংরক্ষণ করুন।`);await loadProducts()}catch(err){toast(err.message)}};
+$("#checkoutForm").onsubmit=async e=>{
+  e.preventDefault();
+  const f=new FormData(e.target);
+  const payload={
+    name:f.get("name"),
+    phone:f.get("phone"),
+    address:f.get("address"),
+    paymentMethod:f.get("paymentMethod"),
+    transactionId:f.get("transactionId"),
+    items:cart
+  };
+
+  try{
+    const r=await fetch("/api/orders",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(payload)
+    });
+
+    const data=await r.json();
+    if(!r.ok) throw Error(data.error||"অর্ডার করা যায়নি");
+
+    localStorage.setItem("bh_customer_order",JSON.stringify({
+      orderCode:data.orderCode,
+      phone:payload.phone
+    }));
+
+    cart=[];
+    save();
+    $("#checkoutModal").classList.add("hidden");
+    e.target.reset();
+    $("#bkashBox").classList.add("hidden");
+
+    alert(`${data.message}\nঅর্ডার নম্বর: ${data.orderCode}\nমোট: ${money(data.total)}\nঅর্ডার নম্বরটি সংরক্ষণ করুন।`);
+
+    await loadProducts();
+  }catch(err){
+    toast(err.message);
+  }
+};
 $("#searchForm").onsubmit=e=>{e.preventDefault();render()};$("#search").oninput=render;$("#category").onchange=render;$("#year").textContent=new Date().getFullYear();save();loadProducts();
