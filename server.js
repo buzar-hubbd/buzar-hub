@@ -11,6 +11,7 @@ const path = require("path");
 const fs = require("fs");
 
 const app = express();
+app.set('trust proxy', 1);
 const PORT = Number(process.env.PORT || 3000);
 const DATA_FILE = path.resolve(process.env.DATABASE_FILE || "./data/bazar-hub.sqlite");
 const UPLOAD_DIR = path.resolve(process.env.UPLOAD_DIR || "./uploads");
