@@ -53,4 +53,41 @@ $("#checkoutForm").onsubmit=async e=>{
     toast(err.message);
   }
 };
+async function checkOrderConfirmation(){
+  const saved = JSON.parse(
+    localStorage.getItem("bh_customer_order") || "null"
+  );
+
+  if(!saved) return;
+
+  try{
+    const r = await fetch("/api/order-track",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({
+        orderCode:saved.orderCode,
+        phone:saved.phone
+      })
+    });
+
+    if(!r.ok) return;
+
+    const data = await r.json();
+
+    if(
+      data.orderStatus === "CONFIRMED" &&
+      localStorage.getItem("bh_confirmed_notice") !== saved.orderCode
+    ){
+      localStorage.setItem("bh_confirmed_notice",saved.orderCode);
+
+      alert("🎉 অভিনন্দন!\nআপনার BAZAR HUB অর্ডার কনফার্ম হয়েছে!");
+    }
+
+  }catch(err){
+    console.log("Order status check failed");
+  }
+}
+
+checkOrderConfirmation();
+setInterval(checkOrderConfirmation,30000);
 $("#searchForm").onsubmit=e=>{e.preventDefault();render()};$("#search").oninput=render;$("#category").onchange=render;$("#year").textContent=new Date().getFullYear();save();loadProducts();
